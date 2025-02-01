@@ -1,0 +1,37 @@
+{
+    "name": "justflow",
+    "version": "1.0.0",
+    "description": "Modular Discord bot with a flexible core for dynamically loading functionalities.",
+    "author": "JustFlowBot",
+    "license": "CC-BY-NC-4.0",
+    "licenceURL": "https://spdx.org/licenses/CC-BY-NC-4.0",
+    "licenseFile": "LICENSE.md",
+    "main": "index.js",
+    "type": "module",
+    "homepage": "https://github.com/JustFlowBot",
+    "scripts": {
+        "dev": "tsx watch src/index.ts",
+        "build": "node build"
+    },
+    "workspaces": [
+        "mode"
+    ],
+    "repository": "github:JustFlowBot/JustFlow",
+    "keywords": [
+        "JustFlow",
+        "JustFlowBot",
+        "discord",
+        "bot",
+        "typescript",
+        "modular"
+    ],
+    "devDependencies": {
+        "fs-extra": "^11.3.0",
+        "prettier": "^3.4.2",
+        "tsx": "^4.19.2",
+        "typescript": "^5.7.3"
+    },
+    "dependencies": {
+        "discord.js": "^14.17.3"
+    }
+}
