@@ -1,0 +1,7 @@
+# https://typeorm.io/data-source-options#common-data-source-options
+database:
+  type: 'better-sqlite3'
+  database: 'flowbot.sqlite'
+  # host: ''
+  # username: ''
+  # password: ''

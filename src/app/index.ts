@@ -1,1 +1,1 @@
-console.log('Uh... Yeah... This is fine...');
+import './client/discord.js'

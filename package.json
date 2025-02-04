@@ -10,11 +10,10 @@
     "type": "module",
     "homepage": "https://github.com/JustFlowBot",
     "scripts": {
-        "dev": "tsx watch src/index.ts",
-        "build": "node build"
+        "build": "tsc && node postBuild && prettier --write dist/build/**/* --ignore-path ''"
     },
     "workspaces": [
-        "mode"
+        "app/modules/**/*"
     ],
     "repository": "github:JustFlowBot/JustFlow",
     "keywords": [
@@ -26,12 +25,15 @@
         "modular"
     ],
     "devDependencies": {
-        "fs-extra": "^11.3.0",
+        "@types/node": "^22.13.0",
+        "better-sqlite3": "^11.8.1",
         "prettier": "^3.4.2",
-        "tsx": "^4.19.2",
         "typescript": "^5.7.3"
     },
     "dependencies": {
-        "discord.js": "^14.17.3"
+        "discord.js": "^14.17.3",
+        "reflect-metadata": "^0.2.2",
+        "typeorm": "^0.3.20",
+        "yaml": "^2.7.0"
     }
 }
