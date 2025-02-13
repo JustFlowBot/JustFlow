@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import { parse } from 'yaml'
 import { readFileSync } from 'fs'
-import { toDir } from '../utils/files.js'
+import { toDir } from '../utils/file.js'
 import { Column, DataSource, DataSourceOptions, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { Post } from '../modules/test/mod.js'
 

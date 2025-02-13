@@ -1,5 +1,5 @@
 import { readdirSync } from 'fs'
-import { toDir, toFile } from '../utils/files.js'
+import { toDir, toFile } from '../utils/file.js'
 import type { loadedModules, Module } from '../types/modules.js'
 import type { Entity } from '../types/typeORM.js'
 
@@ -35,6 +35,7 @@ export default (async function () {
         modules: [],
     }
 
+    console.log('executed!')
     const moduleFiles = readdirSync(toDir('modules'))
 
     await Promise.all(
