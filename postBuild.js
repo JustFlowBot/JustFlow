@@ -23,6 +23,11 @@ const addLicenseHeader = (out = outDir) => {
     })
 }
 
+// Generate default empty modules folder
+const addModulesFolder = () => {
+    fs.mkdirSync(path.join(outDir, 'app', 'modules'))
+}
+
 // Copy license file
 const copyFile = (source, name) => {
     fs.copyFileSync(source, path.join(outDir, name))
@@ -65,5 +70,6 @@ const licenseHeader = `/*!
 copyAssets()
 removeTypesFolder()
 addLicenseHeader()
+addModulesFolder()
 copyFile(pkg.licenseFile, 'LICENCE.md')
 generatePackageJson()
