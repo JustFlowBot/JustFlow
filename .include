@@ -1,0 +1,5 @@
+# Typing includes
+app/types/index.d.ts
+app/types/modules.d.ts
+app/types/typeORM.d.ts
+app/utils

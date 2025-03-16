@@ -1,6 +1,7 @@
 {
     "name": "justflow",
     "version": "1.0.0",
+    "typingVersion": "1.0.0",
     "description": "Modular Discord bot with a flexible core for dynamically loading functionalities.",
     "author": "JustFlowBot",
     "license": "CC-BY-NC-4.0",
@@ -10,7 +11,8 @@
     "type": "module",
     "homepage": "https://github.com/JustFlowBot",
     "scripts": {
-        "build": "tsc && node postBuild && prettier --write dist/build/**/* --ignore-path ''"
+        "build": "tsc && node postBuild && prettier --write dist/build/**/* --ignore-path ''",
+        "test": "node dist/build/index.js"
     },
     "workspaces": [
         "app/modules/**/*"

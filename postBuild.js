@@ -1,50 +1,64 @@
 import fs from 'fs'
-import path from 'path'
+import { join } from 'path'
 
 // Import JSON files
 import pkg from './package.json' with { type: 'json' }
 import tsConf from './tsconfig.json' with { type: 'json' }
 
-const { outDir, rootDir } = tsConf.compilerOptions
+const { outDir, rootDir, declarationDir } = tsConf.compilerOptions
 
 // Remove app/types folder. Since in js is unnecesary
-const removeTypesFolder = () => fs.rmSync(path.join(outDir, 'app', 'types'), { force: true, recursive: true })
+const removeTypesFolder = () => fs.rmSync(join(outDir, 'app', 'types'), { force: true, recursive: true })
 
 // Add license header to JavaScript files
-const addLicenseHeader = (out = outDir) => {
+const addLicenseHeader = (out) => {
     fs.readdirSync(out).forEach((file) => {
-        const filePath = path.join(out, file)
+        const filePath = join(out, file)
         if (fs.statSync(filePath).isDirectory()) {
             addLicenseHeader(filePath)
-        } else if (filePath.endsWith('.js')) {
+        } else if (filePath.endsWith('.js') || filePath.endsWith('.ts')) {
             const content = fs.readFileSync(filePath, 'utf-8')
             fs.writeFileSync(filePath, `${licenseHeader}${content}`, 'utf-8')
         }
     })
 }
 
-// Generate default empty modules folder
-const addModulesFolder = () => {
-    fs.mkdirSync(path.join(outDir, 'app', 'modules'))
+const removeTypingTrash = () => {
+    const ignored = {}
+
+    fs.readFileSync('.include', 'utf-8')
+        .split('\r\n')
+        .forEach((line) => !line.startsWith('#') && (ignored[line] = ''))
+
+    // I will do the refactoring D:
 }
 
+// Generate default empty modules folder
+const addModulesFolder = () => fs.mkdirSync(join(outDir, 'app', 'modules'), { recursive: true })
+
 // Copy license file
-const copyFile = (source, name) => {
-    fs.copyFileSync(source, path.join(outDir, name))
-}
+const copyFile = (source, name) => fs.copyFileSync(source, join(outDir, name))
 
 // Generate minimal package.json in output directory
 const generatePackageJson = () => {
-    const { licenseFile, keywords, devDependencies, licenceURL, scripts, type, ...refinedPackage } = pkg
+    const { licenseFile, keywords, devDependencies, licenceURL, scripts, type, typingVersion, ...refinedPackage } = pkg
+    fs.writeFileSync(join(outDir, 'package.json'), JSON.stringify(refinedPackage, null, 2)) // build
+    refinedPackage['version'] = typingVersion
+    refinedPackage['exports'] = {
+        '.': './app/types/index.d.ts',
+        './utils': './app/utils/index.d.ts',
+    }
+    delete refinedPackage.main
+    delete refinedPackage.workspaces
 
-    fs.writeFileSync(path.join(outDir, 'package.json'), JSON.stringify(refinedPackage, null, 2))
+    fs.writeFileSync(join(declarationDir, 'package.json'), JSON.stringify(refinedPackage, null, 2)) // types
 }
 
 // Copy non-TS and non-JS files
 const copyAssets = (root = rootDir, out = outDir) => {
     fs.readdirSync(root).forEach((file) => {
-        const sourceFilePath = path.join(root, file)
-        const destFilePath = path.join(out, file)
+        const sourceFilePath = join(root, file)
+        const destFilePath = join(out, file)
 
         if (fs.statSync(sourceFilePath).isDirectory()) {
             !fs.existsSync(destFilePath) && fs.mkdirSync(destFilePath)
@@ -69,7 +83,9 @@ const licenseHeader = `/*!
 // Post-Build
 copyAssets()
 removeTypesFolder()
-addLicenseHeader()
+removeTypingTrash()
 addModulesFolder()
 copyFile(pkg.licenseFile, 'LICENCE.md')
 generatePackageJson()
+addLicenseHeader(outDir)
+addLicenseHeader(declarationDir)
