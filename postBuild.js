@@ -98,7 +98,7 @@ const appStuff = (root = outDir) => {
     }
 
     // Make a neccesary package.json
-    const { licenseFile, keywords, devDependencies, licenceURL, scripts, type, typingVersion, ...refinedPackage } = pkg
+    const { licenseFile, keywords, devDependencies, licenceURL, scripts, typingVersion, ...refinedPackage } = pkg
     fs.writeFileSync(join(root, 'package.json'), JSON.stringify(refinedPackage, null, 2))
 
     // Make a default empty modules folder
