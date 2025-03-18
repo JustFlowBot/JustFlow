@@ -1,0 +1,8 @@
+[+/dist/types/] Typing includes
+app/types/modules.d.ts
+app/types/typeORM.d.ts
+app/types/index.d.ts
+app/utils
+
+[-/dist/build/] App excludes
+app/types
