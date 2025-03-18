@@ -36,7 +36,7 @@ const loadCleanFile = () => {
                         for (const dir of fs.readdirSync(filePath, { recursive: true })) {
                             filter[relPath].files.add(join(filePath, dir))
                         }
-                    const d = filePath.split('\\')
+                    const d = filePath.split(sep)
                     for (let i = 2; i < d.length - 1; i++) {
                         filter[relPath].files.add(join(...d.slice(0, i + 1)))
                     }
@@ -114,7 +114,7 @@ const typeStuff = (root = declarationDir) => {
         const file = join(root, _file)
 
         if (checkDeletion(file) || !fs.existsSync(file)) continue
-        !fs.statSync(file).isDirectory() && setLicenseHeader(file, pkg.version)
+        !fs.statSync(file).isDirectory() && setLicenseHeader(file, pkg.typingVersion)
     }
 
     // Make a neccesary package.json
